@@ -1,6 +1,9 @@
 'use client' 
 
 import { useEffect, useState } from 'react';
+import {useRouter} from 'next/navigation'
+import { ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
   useEffect(() => {
@@ -13,40 +16,50 @@ export default function Home() {
   const [attendees, setAttendees] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const router = useRouter()
+
   const handleCodigoChange = (event) => {
     setCodigo(event.target.value);
   };
+  
 
   const handleConfirma = async () => {
-    try {
-      const response = await fetch('./api/confirmacao/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({ codigo, attendees }),
-      });
-      
-      if (response.ok) {
-        // Verifica se a resposta não está vazia antes de tentar analisá-la
-        const json = await response.json();
-        // Faça algo com o JSON
-      } else {
-        console.error('Erro na solicitação:', response.status);
-      }
+    // Supondo que você tenha URL definido em algum lugar do seu código
+const URL = 'http://localhost:3100/';
 
-      const data = await response.json();
 
-      if (response.ok) {
-        setValidCodigo(true);
-        setAttendees(data.attendees);
-      } else {
-        setErrorMessage(data.error);
-      }
-    } catch (error) {
-      console.error('Erro ao confirmar presença:', error);
-      setErrorMessage('Ocorreu um erro ao confirmar presença. Por favor, tente novamente mais tarde.');
-    }
+
+try {
+  const response = await fetch(`${URL}convite/codigo/${codigo}`);
+console.log("RESPONSE", response.status)
+
+  if(response.status === 400) {
+    toast.error('O Codigo informado é Inválido"')
+    document.getElementById('my_modal_1').showModal();
+    
+  }
+
+  if(response.status === 404) {
+    toast.error('Informe o Código"')
+    document.getElementById('my_modal_1').showModal();
+    
+  }
+
+  if (response.ok) {
+    // Se a resposta estiver OK, analise o JSON retornado
+    router.push('/confirmacao')
+    const json = await response.json();
+    // Faça algo com o JSON retornado
+    console.log(json);
+  } else {
+    // Se a resposta não estiver OK, registre o erro
+    console.error('Erro na solicitação:', response.status);
+  }
+} catch (error) {
+  // Se ocorrer um erro durante a solicitação, registre o erro
+  console.error('Erro durante a solicitação:', error);
+}
+
   };
 
   return (
@@ -64,6 +77,7 @@ export default function Home() {
                 </form>
               </div>
             </div>
+            <ToastContainer />
           </dialog>
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
@@ -73,6 +87,7 @@ export default function Home() {
           <p>Você confirmou presença para {attendees} pessoa(s).</p>
         </div>
       )}
+      
     </main>
   );
 }

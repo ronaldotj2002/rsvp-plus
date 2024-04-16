@@ -1,11 +1,11 @@
 const { Router } = require('express');
 
-const ConvidadoController = require('../controllers/ConvidadoController.js');
+const ConvidadoController = require('../controllers/ConvidadoController')
 
 const convidadoController = new ConvidadoController();
 
 const router = Router();
 
-router.get('/convidados', (req, res) => convidadoController.pegarTodos(req, res));
+router.get('/convidados', ConvidadoController.listarConvidados);
 
 module.exports = router;

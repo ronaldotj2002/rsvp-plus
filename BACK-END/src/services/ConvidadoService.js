@@ -1,8 +1,17 @@
-const Services = require('./Services.js');
+const database = require('../models')
 
-class ConvidadoService extends Services {
-    constructor() {
-        super('Convidados');
+class ConvidadoService {
+
+    static async listarConvidados() {
+
+        try {
+            const convidados = await database.Convidados.findAll();
+
+            
+            return convidados 
+        } catch (err) {
+            throw new Error('Erro ao listar convidados')
+        }
     }
 }
 

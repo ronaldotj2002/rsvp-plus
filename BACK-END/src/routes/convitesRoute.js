@@ -6,7 +6,9 @@ const conviteController = new ConviteController();
 
 const router = Router();
 
-router.get('/convite', (req, res) => conviteController.pegarTodos(req, res));
-router.put('/convite/:id', (req, res) => conviteController.atualiza(req, res));
+router
+    .get('/convite', ConviteController.listar)
+    .get('/convite/codigo/:codigo', ConviteController.filtrarConvite)
+    .put('/convite/:id', ConviteController.mudarSatusConvite)
 
 module.exports = router;

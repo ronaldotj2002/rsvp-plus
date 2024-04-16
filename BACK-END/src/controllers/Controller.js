@@ -1,3 +1,5 @@
+const ConviteService = require('../services/ConviteService')
+
 class Controller {
     constructor(entidadeService) {
         this.entidadeService = entidadeService;
@@ -12,6 +14,21 @@ class Controller {
             console.log("------> error", err)
         }
     }
+
+    // static async filtrarConvite(req, res) {
+    //     const { id } = req.params;
+    //     console.info("Iniciando o filtro de Convites..")
+    //     const convite = req.body;
+
+    //     try {
+    //         const pegarConvite = await ConviteService.buscarConvite(id)
+    //         return res.status(200).json(pegarConvite);
+         
+    //     } catch (err) {
+    //         return res.status(400).json({mensagem: `Convite não encontrado`})
+           
+    //     }
+    // }
 
     async atualiza(req, res) {
         
