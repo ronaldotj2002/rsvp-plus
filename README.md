@@ -1,16 +1,10 @@
-CREATE TABLE confirma_codigos ( id UUID DEFAULT uuid_generate_V4() PRIMARY KEY,
-                                codigo VARCHAR(255) NOT NULL,
-                                usado BOOLEAN NOT NULL
-                                );
+# RSVP - PLUS
 
-INSERT INTO confirma_codigos (codigo, usado)
-VALUES ('272727', false)
-ON CONFLICT (id) DO NOTHING;
+ O RSVP - PLUS agiliza a parte de confirmação da presença dos convidados em seu evento;
 
+ Cada convite contem um cógigo que deve ser informado assim que o usuário acessar a página,
+ aopós informar o código, o sistema irá fazer uma consulta na base para saber se o código é válido e se ainda não foi usado.
+ Após a confirmação, o usuário será direcionado para uma outra página, onde ele deve informar o nome e a quantidade de pessoas, ex. um adulto e duas crianças.
+ após a confirmação, os dados serão salvos na base.
 
-
--- Verificar se um código é válido e não foi usado
-SELECT * FROM confirma_codigos WHERE codigo = '123456' AND NOT usado;
-
--- Marcar um código como usado
-UPDATE confirma_codigos SET usado = TRUE WHERE codigo = '123456';
+ O Administrador do evento pode se logar e verificar quais convites já foram confirmados, quantidade de pessoas e etc.
