@@ -12,9 +12,9 @@ export default function Home() {
   }, []);
 
   const [codigo, setCodigo] = useState('');
-  const [validCodigo, setValidCodigo] = useState(false);
-  const [attendees, setAttendees] = useState(0);
-  const [errorMessage, setErrorMessage] = useState('');
+  // const [validCodigo, setValidCodigo] = useState(false);
+  // const [attendees, setAttendees] = useState(0);
+  // const [errorMessage, setErrorMessage] = useState('');
 
   const router = useRouter()
 
@@ -24,7 +24,7 @@ export default function Home() {
   
 
   const handleConfirma = async () => {
-    // Supondo que você tenha URL definido em algum lugar do seu código
+
 const URL = 'http://localhost:3100/';
 
 
@@ -46,17 +46,23 @@ console.log("RESPONSE", response.status)
   }
 
   if (response.ok) {
-    // Se a resposta estiver OK, analise o JSON retornado
-    router.push('/confirmacao')
+
     const json = await response.json();
-    // Faça algo com o JSON retornado
+   
+    if(json.usado === true) {
+      toast.error('O Codigo informado já foi utilizado!')
+      document.getElementById('my_modal_1').showModal();
+    } else {      
+      router.push('/confirmacao')
+    }
+    
     console.log(json);
   } else {
-    // Se a resposta não estiver OK, registre o erro
+   
     console.error('Erro na solicitação:', response.status);
   }
 } catch (error) {
-  // Se ocorrer um erro durante a solicitação, registre o erro
+ 
   console.error('Erro durante a solicitação:', error);
 }
 
@@ -64,7 +70,7 @@ console.log("RESPONSE", response.status)
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {!validCodigo ? (
+      
         <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
           <dialog id="my_modal_1" className="modal">
             <div className="modal-box">
@@ -79,14 +85,8 @@ console.log("RESPONSE", response.status)
             </div>
             <ToastContainer />
           </dialog>
-          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+          
         </div>
-      ) : (
-        <div>
-          <h1>Obrigado por confirmar sua presença!</h1>
-          <p>Você confirmou presença para {attendees} pessoa(s).</p>
-        </div>
-      )}
       
     </main>
   );
