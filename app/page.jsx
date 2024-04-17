@@ -12,9 +12,6 @@ export default function Home() {
   }, []);
 
   const [codigo, setCodigo] = useState('');
-  // const [validCodigo, setValidCodigo] = useState(false);
-  // const [attendees, setAttendees] = useState(0);
-  // const [errorMessage, setErrorMessage] = useState('');
 
   const router = useRouter()
 
@@ -22,16 +19,12 @@ export default function Home() {
     setCodigo(event.target.value);
   };
   
-
   const handleConfirma = async () => {
-
-const URL = 'http://localhost:3100/';
-
-
+    const URL = 'http://localhost:3100/';
 
 try {
   const response = await fetch(`${URL}convite/codigo/${codigo}`);
-console.log("RESPONSE", response.status)
+  console.log("RESPONSE", response.status)
 
   if(response.status === 400) {
     toast.error('O Codigo informado é Inválido"')

@@ -14,11 +14,8 @@ const Adm = () => {
         document.getElementById('my_modal_1').showModal();
       }, []);
 
-    // const [usuario, setUsuario] = useState('')
-    // const [senha, setSenha] = useState('')
-
     const [values, setValues] = useState({
-        usuario: '',
+        email: '',
         senha: ''
     })
     
@@ -34,11 +31,6 @@ const Adm = () => {
             }
         })
     }
-
-    
-
-   
-
 
     return (
         <div className='container mx-auto px-4 mt-3'>
@@ -64,14 +56,15 @@ const Adm = () => {
                     <p className="py-4 text-center">Área restrita aos administradores do evento!</p>                    
                         <form method="dialog" onSubmit ={(event) => {
                             event.preventDefault();
-                            authService.login({
-                                email: values.usuario,
+                            AuthService.login({
+                                email: values.email,
                                 senha: values.senha
                             })
                             .then(() => {
-
+                                router.push('/adm/area-logada')
                             })
                             .catch(() => {
+                                // alert("Usuário ou senha inválido!")
                                 toast.error('Usuário ou senha inválido!')
                             })
                         }} >
