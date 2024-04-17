@@ -1,7 +1,7 @@
 'use client'
 
 import {React, useState } from 'react';
-
+import {useRouter} from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,6 +10,8 @@ const Confirmacao = () => {
     const [nome, setNome] = useState('');
     const [acompanhanteAdulto, setAcompanhanteAdulto] = useState('');
     const [acompanhanteCrianca, setAcompanhanteCrianca] = useState('');
+
+    const router = useRouter()
 
     const handleNomeChange = (event) => {
         setNome(event.target.value);
@@ -25,6 +27,12 @@ const Confirmacao = () => {
 
     const handleConfirma = async (event) => {
         event.preventDefault();
+        const id = localStorage.getItem('id');
+        const codigo = localStorage.getItem('codigo');
+
+        console.log("id", id)
+        console.log("codigo", codigo)
+        
 
         try {
             const response = await fetch('http://localhost:3100/convidados', {
@@ -36,13 +44,18 @@ const Confirmacao = () => {
                     nome,
                     acompanhanteAdulto,
                     acompanhanteCrianca,
-                    codigo
+                    codigo,
+                    id
                 }),
             });
 
             if (response.ok) {
                 
                 toast.success('Dados confirmados com sucesso!');
+                localStorage.clear();
+                setTimeout(() => {
+                    router.push('/')                   
+                  }, 5000);
             } else {
                
                 toast.error('Erro ao confirmar os dados. Por favor, tente novamente.');

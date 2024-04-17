@@ -52,8 +52,10 @@ console.log("RESPONSE", response.status)
     if(json.usado === true) {
       toast.error('O Codigo informado já foi utilizado!')
       document.getElementById('my_modal_1').showModal();
-    } else {      
+    } else { 
       router.push('/confirmacao')
+      localStorage.setItem('id', json.id);   
+      localStorage.setItem('codigo', json.codigo);    
     }
     
     console.log(json);
