@@ -12,7 +12,10 @@
  ## ROTAS
 
   - Tela inicial: http://localhost:3000/ (inserir o código);
-  - Tela de confirmação: http://localhost:3000/confirmacao (Se o código for válido o usuário será direcionado para a mesma)
+  - Tela de confirmação: http://localhost:3000/confirmacao (Se o código for válido e ainda estiver ativo o usuário será direcionado para a mesma)
 
   - tela de Adm: http://localhost:3000/adm (Tela de Login)
   - Área logada: http://localhost:3000/adm/area-logada (após a autenticação do usuário)
+        - Lista de convites;
+        - Convites ativos;
+        - Convidados confirmados
